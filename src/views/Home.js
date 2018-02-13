@@ -15,7 +15,6 @@ export default class Home extends Component<Props> {
         this.state = {
             quizzes: [],
             correct: 0,
-            answers: [],
             currentQuiz: null
         };
 
@@ -43,7 +42,7 @@ export default class Home extends Component<Props> {
                 </Text>
                 <Button
                     disabled={!quizzes.length}
-                    onPress = {() => this.setState({currentQuiz: 1})}
+                    onPress = {() => this.setState({currentQuiz: 1, correct: 0})}
                     title="Play again"
                     color="#841584"
                 />
@@ -53,7 +52,7 @@ export default class Home extends Component<Props> {
 
 
     onAnswer(isCorrect){
-        const {currentQuiz, quizzes, correct} = this.state;
+        const {currentQuiz, correct} = this.state;
         this.setState({correct: isCorrect ? (correct + 1) : correct, currentQuiz: currentQuiz + 1});
     }
 
