@@ -1,0 +1,13 @@
+
+
+
+.renderQuestions{
+    margin-top: 5%;
+}
+
+.options {
+    margin-left: 2% !important;
+    margin-bottom: 1% !important;
+    display: block !important;
+    /* margin-left: 3%; */
+}

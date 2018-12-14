@@ -11,6 +11,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconAdd from '../../AddIcon/Icon';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Custom from './style.css';
 
 export default class QuestionScreen extends Component {
     constructor(props) {
@@ -31,6 +37,7 @@ export default class QuestionScreen extends Component {
         this.addnewQuestion = this.addnewQuestion.bind(this);
         this.getQuiz = this.getQuiz.bind(this);
     }
+
     componentWillMount() {
         this.setState({ quizName: this.props.location.state.quiz, quizId: this.props.location.state.quizId, categoryId: this.props.location.state.categoryId })
         this.getQuiz()
@@ -68,36 +75,40 @@ export default class QuestionScreen extends Component {
 
 
     render() {
+        let { quizId, categoryId, question, optionA, optionB, optionC, optionD, correctOption, quizQusetion } = this.state
+
         return (
             <div>
                 <AppBar position="static">
                     <p>{this.state.quizName}</p>
                 </AppBar>
 
-                <div style={{ position: 'absolute' }}>
+                <div >
                     {this.state.quizQusetion && this.state.quizQusetion.map((el, i) => {
                         return (
-                            <div>
-                                <List component="nav">
-                                    <ListItem button>
-                                        <ListItemText>{i + 1}: {el.question}</ListItemText>
-                                    </ListItem>
-                                </List>
-                                <div>
-                                    <Button variant="contained" color={el.questions.A === el.correct_answer ? "primary" : "default"}>
-                                        {el.questions.A}
-                                    </Button>
-                                    <Button variant="contained" color={el.questions.B === el.correct_answer ? "primary" : "default"}>
-                                        {el.questions.B}
-                                    </Button>
-                                    <Button variant="contained" color={el.questions.C === el.correct_answer ? "primary" : "default"}>
-                                        {el.questions.C}
-                                    </Button>
-                                    <Button variant="contained" color={el.questions.D === el.correct_answer ? "primary" : "default"}>
-                                        {el.questions.D}
-                                    </Button>
-                                </div>
+                            <div style={{ backgroundColor: '#e0e0e0', marginTop: '5%', height: '300px' }}>
+                                <div className="renderQuestions">
+                                    <List component="nav">
+                                        <ListItem >
+                                            <h3>{i + 1}: {el.question}</h3>
+                                        </ListItem>
+                                    </List>
 
+                                    <div >
+                                        <Button variant="contained" color={el.questions.A === el.correct_answer ? "primary" : "default"} className="options">
+                                            {el.questions.A}
+                                        </Button>
+                                        <Button variant="contained" color={el.questions.B === el.correct_answer ? "primary" : "default"} className="options">
+                                            {el.questions.B}
+                                        </Button>
+                                        <Button variant="contained" color={el.questions.C === el.correct_answer ? "primary" : "default"} className="options">
+                                            {el.questions.C}
+                                        </Button>
+                                        <Button variant="contained" color={el.questions.D === el.correct_answer ? "primary" : "default"} className="options">
+                                            {el.questions.D}
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
 
                         )
@@ -150,11 +161,24 @@ export default class QuestionScreen extends Component {
                         />
                     </DialogContent>
                     <DialogContent>
-                        <TextField
+                        {/* <TextField
                             label="Write Correct Option"
                             value={this.state.correctOption}
+                        onChange={(event) => { this.setState({ correctOption: event.target.value }) }}
+                        /> */}
+                        <InputLabel htmlFor="age-helper">Select Correct Option</InputLabel>
+                        <Select
                             onChange={(event) => { this.setState({ correctOption: event.target.value }) }}
-                        />
+                            value={correctOption}
+                        // onChange={this.handleChange}
+                        // input={<Input name="age" id="age-helper" value={this.state.correctOption} />}
+                        >
+                            <MenuItem value={optionA}>A</MenuItem>
+                            <MenuItem value={optionB}>B</MenuItem>
+                            <MenuItem value={optionC}>C</MenuItem>
+                            <MenuItem value={optionD}>D</MenuItem>
+                        </Select>
+                        {/* <FormHelperText>Some important helper text</FormHelperText> */}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
