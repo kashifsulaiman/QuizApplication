@@ -82,7 +82,6 @@ class Signup extends Component {
 
 
     swalAlert(message) {
-        console.log(message, "??");
         swal('Error!!', message, 'error')
     }
 
