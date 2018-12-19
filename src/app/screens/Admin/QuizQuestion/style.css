@@ -2,7 +2,7 @@
 
 
 .renderQuestions{
-    margin-top: 5%;
+    margin-top: 1%;
 }
 
 .options {
@@ -10,4 +10,23 @@
     margin-bottom: 1% !important;
     display: block !important;
     /* margin-left: 3%; */
+}
+
+* {
+    outline-width: 0;
+}
+
+.MuiDialog-paperWidthSm-86 {
+    max-width: 1000px !important;
+    width: 400px;
+}
+
+.MuiTypography-root-109 {
+    margin: 0;
+    display: block;
+    text-align: center;
+}
+
+.textField{
+    width: 90% !important;
 }

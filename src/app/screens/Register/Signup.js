@@ -78,11 +78,11 @@ class Signup extends Component {
             return false
         }
         return true;
-
     }
 
 
     swalAlert(message) {
+        console.log(message, "??");
         swal('Error!!', message, 'error')
     }
 
@@ -103,7 +103,7 @@ class Signup extends Component {
                 this.setState({ isLoad: false })
                 swal(
                     "Error!"
-                    , e.message,
+                    , e,
                     "error"
                 )
             }

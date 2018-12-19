@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Custom from './style.css';
 
+
 export default class QuestionScreen extends Component {
     constructor(props) {
         super(props);
@@ -28,12 +29,14 @@ export default class QuestionScreen extends Component {
             quizQusetion: [],
             open: false,
             question: '',
-            optionA: '',
-            optionB: '',
-            optionC: '',
+            optionA: {},
+            optionB: {},
+            optionC: {},
             optionD: '',
-            correctOption: ''
+            correctOption: '',
+            ans: '',
         }
+
         this.addnewQuestion = this.addnewQuestion.bind(this);
         this.getQuiz = this.getQuiz.bind(this);
     }
@@ -60,7 +63,7 @@ export default class QuestionScreen extends Component {
         newQuestion.questions = { A: optionA, B: optionB, C: optionC, D: optionD };
         allQuestion.push(newQuestion);
         await addQuestion(allQuestion, categoryId, quizId)
-        this.setState({ open: false, question: '', optionA: '', optionB: '', optionC: '', optionD: '', correctOption: '', quizQusetion: allQuestion }, () => this.getQuiz())
+        this.setState({ open: false, question: {}, optionA: {}, optionB: {}, optionC: {}, optionD: {}, correctOption: '', quizQusetion: allQuestion }, () => this.getQuiz())
         alert(' New Question Added ')
 
     }
@@ -73,10 +76,9 @@ export default class QuestionScreen extends Component {
         this.setState({ open: false });
     };
 
-
     render() {
-        let { quizId, categoryId, question, optionA, optionB, optionC, optionD, correctOption, quizQusetion } = this.state
-
+        let { quizId, categoryId, question, optionA, optionB, optionC, optionD, correctOption, quizQusetion, ans } = this.state
+        let c;
         return (
             <div>
                 <AppBar position="static">
@@ -86,31 +88,29 @@ export default class QuestionScreen extends Component {
                 <div >
                     {this.state.quizQusetion && this.state.quizQusetion.map((el, i) => {
                         return (
-                            <div style={{ backgroundColor: '#e0e0e0', marginTop: '5%', height: '300px' }}>
+                            <div style={{ backgroundColor: '#e0e0e0', marginTop: '1%', height: '300px' }}>
                                 <div className="renderQuestions">
                                     <List component="nav">
                                         <ListItem >
                                             <h3>{i + 1}: {el.question}</h3>
                                         </ListItem>
                                     </List>
-
                                     <div >
-                                        <Button variant="contained" color={el.questions.A === el.correct_answer ? "primary" : "default"} className="options">
-                                            {el.questions.A}
+                                        <Button variant="contained" color={el.questions.A.name === el.correct_answer.name ? "primary" : "default"} className="options">
+                                            {el.questions.A.value}
                                         </Button>
-                                        <Button variant="contained" color={el.questions.B === el.correct_answer ? "primary" : "default"} className="options">
-                                            {el.questions.B}
+                                        <Button variant="contained" color={el.questions.B.name === el.correct_answer.name ? "primary" : "default"} className="options">
+                                            {el.questions.B.value}
                                         </Button>
-                                        <Button variant="contained" color={el.questions.C === el.correct_answer ? "primary" : "default"} className="options">
-                                            {el.questions.C}
+                                        <Button variant="contained" color={el.questions.C.name === el.correct_answer.name ? "primary" : "default"} className="options">
+                                            {el.questions.C.value}
                                         </Button>
-                                        <Button variant="contained" color={el.questions.D === el.correct_answer ? "primary" : "default"} className="options">
-                                            {el.questions.D}
+                                        <Button variant="contained" color={el.questions.D.name === el.correct_answer.name ? "primary" : "default"} className="options">
+                                            {el.questions.D.value}
                                         </Button>
                                     </div>
                                 </div>
                             </div>
-
                         )
                     })
                     }
@@ -125,61 +125,69 @@ export default class QuestionScreen extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="form-dialog-title">Add new question</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            label="Write Question"
-                            value={this.state.question}
-                            onChange={(event) => { this.setState({ question: event.target.value }) }}
-                        />
-                    </DialogContent>
-                    <DialogContent>
-                        <TextField
-                            label="Write Option: A"
-                            value={this.state.optionA}
-                            onChange={(event) => { this.setState({ optionA: event.target.value }) }}
-                        />
-                    </DialogContent>
-                    <DialogContent>
-                        <TextField
-                            label="Write Option: B"
-                            value={this.state.optionB}
-                            onChange={(event) => { this.setState({ optionB: event.target.value }) }}
-                        />
-                    </DialogContent>
-                    <DialogContent>
-                        <TextField
-                            label="Write Option: C"
-                            value={this.state.optionC}
-                            onChange={(event) => { this.setState({ optionC: event.target.value }) }}
-                        />
-                    </DialogContent>
-                    <DialogContent>
-                        <TextField
-                            label="Write Option: D"
-                            value={this.state.optionD}
-                            onChange={(event) => { this.setState({ optionD: event.target.value }) }}
-                        />
-                    </DialogContent>
-                    <DialogContent>
-                        {/* <TextField
-                            label="Write Correct Option"
-                            value={this.state.correctOption}
-                        onChange={(event) => { this.setState({ correctOption: event.target.value }) }}
-                        /> */}
-                        <InputLabel htmlFor="age-helper">Select Correct Option</InputLabel>
-                        <Select
-                            onChange={(event) => { this.setState({ correctOption: event.target.value }) }}
-                            value={correctOption}
-                        // onChange={this.handleChange}
-                        // input={<Input name="age" id="age-helper" value={this.state.correctOption} />}
-                        >
-                            <MenuItem value={optionA}>A</MenuItem>
-                            <MenuItem value={optionB}>B</MenuItem>
-                            <MenuItem value={optionC}>C</MenuItem>
-                            <MenuItem value={optionD}>D</MenuItem>
-                        </Select>
-                        {/* <FormHelperText>Some important helper text</FormHelperText> */}
-                    </DialogContent>
+                    <center>
+                        <DialogContent>
+                            <TextField
+                                label="Write Question"
+                                value={this.state.question.value}
+                                onChange={(event) => { this.setState({ question: event.target.value }) }}
+                                className="textField"
+                            />
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                label="Write Option: A"
+                                value={this.state.optionA.value}
+                                onChange={(event) => { this.setState({ optionA: { value: event.target.value, name: event.target.name } }) }}
+                                className="textField"
+                                name="A"
+                            />
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                label="Write Option: B"
+                                value={this.state.optionB.value}
+                                onChange={(event) => { this.setState({ optionB: { value: event.target.value, name: event.target.name } }) }}
+                                className="textField"
+                                name='B'
+                            />
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                label="Write Option: C"
+                                value={this.state.optionC.value}
+                                onChange={(event) => { this.setState({ optionC: { value: event.target.value, name: event.target.name } }) }}
+                                className="textField"
+                                name='C'
+                            />
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                label="Write Option: D"
+                                value={this.state.optionD.value}
+                                onChange={(event) => {
+                                    this.setState({ optionD: { value: event.target.value, name: event.target.name } })
+                                }}
+                                className="textField"
+                                name='D'
+                            />
+                        </DialogContent>
+                        <DialogContent>
+
+                            <InputLabel htmlFor="age-helper">Select Correct Option</InputLabel>
+                            <Select
+                                onChange={(event) => { this.setState({ correctOption: event.target.value }) }}
+                                value={correctOption}
+                                className="textField"
+                            >
+                                <MenuItem value={optionA}>A</MenuItem>
+                                <MenuItem value={optionB}>B</MenuItem>
+                                <MenuItem value={optionC}>C</MenuItem>
+                                <MenuItem value={optionD}>D</MenuItem>
+                            </Select>
+                        </DialogContent>
+                    </center>
+                    {console.log(correctOption, "}}}")}
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Cancel

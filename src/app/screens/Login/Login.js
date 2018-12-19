@@ -35,21 +35,25 @@ class Login extends Component {
         let obj = {};
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                        firebase.firestore().collection('users').doc(user.uid).get()
+                        firebase.firestore().collection('users').get()
                         .then((item) => {
-                            console.log(item.data(), "#######################")
-                            if (item.data().isAdmin) {
-    
+                            item.forEach(element => {
+                                console.log(element.data() , ">>>>>>>>>>>>>>>>")
+                                // console.log(item.data(), "#######################")
+                                if (element.data().isAdmin) {
+                                    
                                 this.props.history.push('/CreateCategories')
-    
+                                
                             }
 
-
-
-                        else {
-                            this.setState({ isLoad: false })
-                            this.props.history.push('Categories')
-                        }
+                            
+                            
+                            else {
+                                this.setState({ isLoad: false })
+                                this.props.history.push('Categories')
+                                
+                            }
+                        });
                     })
             }
              else {

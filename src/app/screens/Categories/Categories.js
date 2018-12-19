@@ -83,10 +83,10 @@ class Categories extends Component {
                 let testResult = res.result
                 let quizName = quiz.name
                 let flag = false
-                for(var key in testResult){
-                    if((category + ' | ' + quizName ) == key){
+                for (var key in testResult) {
+                    if ((category + ' | ' + quizName) == key) {
                         var res = testResult[key]
-                        this.setState({[quizName] : [res]})
+                        this.setState({ [quizName]: [res] })
                         flag = true
                         swal('Sorry', 'You can not attempt this Quiz again', 'info')
                     }
@@ -166,6 +166,7 @@ class Categories extends Component {
             this.props.history.replace('/')
         })
     }
+    
     render() {
         const { isLog, catLoad } = this.state
         return (
@@ -214,7 +215,7 @@ class Categories extends Component {
                                                                         <ListItemText>
                                                                             <span style={{ color: 'white' }}>{quiz.name}</span>
                                                                             <Button variant="contained" color="primary" style={styles.btnLogout} onClick={() => { this.checkResult(quiz, el.data.name, el.data.startTime, el.data) }}>
-                                                                                <span style={{ color: ((this.state[`${quiz.name}`]) ? ((this.state[`${quiz.name}`]) < 50 ? 'red' : (this.state[`${quiz.name}`]) < 80 ? 'yellow' : 'green') : 'white'), padding: '0' }}>{this.state[`${quiz.name}`] ? ((parseInt(this.state[`${quiz.name}`])).toFixed(2) +'%') : "Take Quiz"}</span>
+                                                                                <span style={{ color: ((this.state[`${quiz.name}`]) ? ((this.state[`${quiz.name}`]) < 50 ? 'red' : (this.state[`${quiz.name}`]) < 80 ? 'yellow' : 'green') : 'white'), padding: '0' }}>{this.state[`${quiz.name}`] ? ((parseInt(this.state[`${quiz.name}`])).toFixed(2) + '%') : "Take Quiz"}</span>
                                                                             </Button>
                                                                         </ListItemText>
                                                                     </ListItem>

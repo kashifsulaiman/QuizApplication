@@ -97,8 +97,6 @@ const googleLogin = () => {
                 // Accounts successfully linked.
                 var credential = result.credential;
                 var user = result.user;
-                console.log(user, "((((((((())))))))")
-
             })
     })
 
@@ -114,13 +112,11 @@ const facebookLogin = (email, displayName) => {
         const provider = new firebase.auth.FacebookAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function (result) {
             var user = result.user;
-            console.log(user.uid);
             db.collection('users').doc(user.uid).set({
                 id: user.uid,
                 name: user.displayName,
                 email: user.email
             })
-            console.log('Success Pushed')
         })
             .catch(function (error) {
                 console.log(error);

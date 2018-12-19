@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Categories from '../../app/screens/Categories/Categories';
 import Signup from '../../app/screens/Register/Signup'
 import Login from '../../app/screens/Login/Login'

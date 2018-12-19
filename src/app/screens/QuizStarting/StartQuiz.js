@@ -35,11 +35,6 @@ class StartQuiz extends Component {
     }
 
 
-
-    componentWillMount() {
-
-    }
-
     componentDidMount = async () => {
         await this.checkForAuth()
 
@@ -67,8 +62,6 @@ class StartQuiz extends Component {
         });
     }
 
-
-
     handleChange(i, op) {
         this.setState({ currentIndex: i });
         let addKey = this.state.quiz;
@@ -81,15 +74,17 @@ class StartQuiz extends Component {
         var count = 0;
         const { quiz } = this.state;
         quiz.questions.map((ques) => {
-            if (ques.correct_answer == ques.option) {
+            if (ques.correct_answer.name == ques.option) {
                 count = count + 1;
             }
         });
+
         localStorage.removeItem('quizIsInUnderWay')
         localStorage.removeItem('quiz')
         localStorage.removeItem(('localTime' + this.state.quiz.name))
         this.setState({ correctAns: count, total: quiz.questions.length, quizName: quiz.category + ' | ' + quiz.name }, () => { this.goResult() });
     }
+
     goResult() {
         this.props.history.replace('/Result', { result: this.state.correctAns, quizName: this.state.quizName, total: this.state.total })
     }
@@ -139,40 +134,37 @@ class StartQuiz extends Component {
                                 <div style={{ fontSize: 20, fontWeight: 'bold', fontFamily: 'vardana', textAlign: 'left' }}>{"Q" + (i + 1) + ") " + q.question}</div>
                                 <div style={{ textAlign: 'left' }}>
                                     <Checkbox
-                                        checked={q.index == i && q.option == q.questions.A ? true : false}
-                                        onChange={() => this.handleChange(i, q.questions.A)}
+                                        checked={q.index == i && q.option == q.questions.A.name ? true : false}
+                                        onChange={() => this.handleChange(i, q.questions.A.name)}
                                         value="checkedA"
                                     />
-                                    <span>{q.questions.A}</span>
+                                    <span>{q.questions.A.value}</span>
                                 </div>
                                 <div style={{ textAlign: 'left' }}>
                                     <Checkbox
-                                        checked={q.index == i && q.option == q.questions.B ? true : false}
-                                        onChange={() => this.handleChange(i, q.questions.B)}
+                                        checked={q.index == i && q.option == q.questions.B.name ? true : false}
+                                        onChange={() => this.handleChange(i, q.questions.B.name)}
                                         value="checkedB"
                                     />
-                                    <span>{q.questions.B}</span>
+                                    <span>{q.questions.B.value}</span>
                                 </div>
                                 <div style={{ textAlign: 'left' }}>
                                     <Checkbox
-                                        checked={q.index == i && q.option == q.questions.C ? true : false}
-                                        onChange={() => this.handleChange(i, q.questions.C)}
+                                        checked={q.index == i && q.option == q.questions.C.name ? true : false}
+                                        onChange={() => this.handleChange(i, q.questions.C.name)}
                                         value="checkedC"
                                     />
-                                    <span>{q.questions.C}</span>
+                                    <span>{q.questions.C.value}</span>
                                 </div>
                                 <div style={{ textAlign: 'left' }}>
                                     <Checkbox
-                                        checked={q.index == i && q.option == q.questions.D ? true : false}
-                                        onChange={() => this.handleChange(i, q.questions.D)}
+                                        checked={q.index == i && q.option == q.questions.D.name ? true : false}
+                                        onChange={() => this.handleChange(i, q.questions.D.name)}
                                         value="checkedD"
                                     />
-                                    <span>{q.questions.D}</span>
+                                    <span>{q.questions.D.value}</span>
                                 </div>
-
                             </div>
-
-
                         )
                     })}
                     <Button style={{ width: 200, height: 50, margin: 30 }} variant="contained" color="secondary" onClick={() => this.submitQuestion()}>

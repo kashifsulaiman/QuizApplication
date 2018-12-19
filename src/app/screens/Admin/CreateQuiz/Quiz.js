@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import swal from 'sweetalert'
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
+import Custom from './style.css';
 
 export default class QuizScreen extends Component {
     constructor(props) {
@@ -59,8 +59,6 @@ export default class QuizScreen extends Component {
         this.setState({ open: false });
     };
 
-
-
     // toggle function for show and hide password
     tooglePasswordForTrue() {
         let { visibility } = this.state;
@@ -78,7 +76,6 @@ export default class QuizScreen extends Component {
 
     render() {
         let { visibility } = this.state;
-
         return (
             <div>
                 <AppBar position="static">
@@ -98,69 +95,74 @@ export default class QuizScreen extends Component {
                 <div onClick={this.handleClickOpen}>
                     <IconAdd />
                 </div>
-
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Add new Quiz</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            label="Quiz Name"
-                            value={this.state.quizName}
-                            onChange={(event) => { this.setState({ quizName: event.target.value }) }}
-                        />
-                    </DialogContent>
-                    <DialogContent>
-                        <TextField
-                            label="Quiz Duration (Min)"
-                            value={this.state.quizDuration}
-                            onChange={(event) => {
-                                if ((event.target.value).match(/^(\s*|\d+)$/)) {
-                                    this.setState({ quizDuration: event.target.value })
-                                }
-                                else {
-                                    swal(
-                                        'Warning!!', 'Enter Time in Minutes by using numbers only', 'info'
-                                    )
+                    <center>
+                        <DialogTitle id="form-dialog-title">Add new Quiz</DialogTitle>
+                        <DialogContent>
+                            <TextField
+                                label="Quiz Name"
+                                value={this.state.quizName}
+                                onChange={(event) => { this.setState({ quizName: event.target.value }) }}
+                                className="textField"
+                            />
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                label="Quiz Duration (Min)"
+                                value={this.state.quizDuration}
+                                className="textField"
+                                onChange={(event) => {
+                                    if ((event.target.value).match(/^(\s*|\d+)$/)) {
+                                        this.setState({ quizDuration: event.target.value })
+                                    }
+                                    else {
+                                        swal(
+                                            'Warning!!', 'Enter Time in Minutes by using numbers only', 'info'
+                                        )
 
+                                    }
                                 }
-                            }
-                            }
-                        />
-                    </DialogContent>
-                    <DialogContent>
-                        <TextField
-                            label="Quiz Password"
-                            type={visibility ? 'text' : 'password'}
-                            value={this.state.quizPassword}
-                            onChange={(event) => { this.setState({ quizPassword: event.target.value }) }}
-                        />
-                        <div style={{ display: 'inline' }}>
-                            {
-                                visibility ?
-                                    <VisibilityOff onClick={this.tooglePasswordForFalse.bind(this)} style={{ marginLeft: '-13px', cursor: 'pointer' }} />
-                                    :
-                                    <Visibility onClick={this.tooglePasswordForTrue.bind(this)} style={{ marginLeft: '-13px', cursor: 'pointer' }} />
-                            }
-                        </div>
-                    </DialogContent>
-                    <DialogContent>
-                        <TextField
-                            label="Quiz Marks"
-                            value={this.state.quizMark}
-                            onChange={(event) => { this.setState({ quizMark: event.target.value }) }}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            Cancel
+                                }
+                            />
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                label="Quiz Password"
+                                type={visibility ? 'text' : 'password'}
+                                value={this.state.quizPassword}
+                                onChange={(event) => { this.setState({ quizPassword: event.target.value }) }}
+                                className="textField"
+                            />
+                            <div style={{ display: 'inline' }}>
+                                {
+                                    visibility ?
+                                        <Visibility onClick={this.tooglePasswordForFalse.bind(this)} style={{ marginLeft: '-13px', cursor: 'pointer' }} />
+                                        :
+                                        <VisibilityOff onClick={this.tooglePasswordForTrue.bind(this)} style={{ marginLeft: '-13px', cursor: 'pointer' }} />
+                                }
+                            </div>
+                        </DialogContent>
+                        <DialogContent>
+                            <TextField
+                                label="Quiz Marks"
+                                value={this.state.quizMark}
+                                onChange={(event) => { this.setState({ quizMark: event.target.value }) }}
+                                className="textField"
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleClose} color="primary">
+                                Cancel
                         </Button>
-                        <Button onClick={() => this.addQuiz()} color="primary">
-                            Create
+                            <Button onClick={() => this.addQuiz()} color="primary">
+                                Create
                         </Button>
-                    </DialogActions>
+                        </DialogActions>
+                    </center>
                 </Dialog>
             </div>
         )

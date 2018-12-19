@@ -42,18 +42,14 @@ export default class CreateCategories extends Component {
 
     checkAuth = () => {
         let { isLoad } = this.state;
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
 
                 firebase.firestore().collection('users').doc(user.uid).get()
                     .then((item) => {
-                        console.log(item.data(), "#######################")
                         if (item.data().isAdmin) {
-
                             this.props.history.push('/CreateCategories')
                             this.setState({ isLoad: false })
-
                         }
                         else {
                             this.setState({ isLoad: false })
@@ -61,8 +57,8 @@ export default class CreateCategories extends Component {
                         }
                     })
 
-
-            } else {
+            }
+            else {
                 this.setState({ notLog: true })
                 this.props.history.push('/')
 
@@ -71,6 +67,11 @@ export default class CreateCategories extends Component {
     }
 
 
+    logOut = () => {
+        firebase.auth().signOut().then(() => {
+            this.props.history.replace('/')
+        })
+    }
 
     async getData() {
         let res = await getCategory();
@@ -97,12 +98,14 @@ export default class CreateCategories extends Component {
 
     render() {
         let { isLoad } = this.state;
-
         return (
             !isLoad ?
                 <div>
                     <AppBar position="static">
                         <p>Create category</p>
+                        <Button variant="contained" color="secondary" style={styles.btnLogout} onClick={this.logOut}>
+                            <span style={{ color: '#fff', padding: '0' }}>Logout</span>
+                        </Button>
                     </AppBar>
                     <div style={{ position: 'absolute' }}>
                         {this.state.categories.map((el) => {
@@ -114,14 +117,12 @@ export default class CreateCategories extends Component {
                                 </List>
                             )
                         })}
-
                     </div>
                     <div className="addicon">
                         <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClickOpen}>
                             <IconAdd />
                         </Button>
                     </div>
-
                     <Dialog
                         open={this.state.open}
                         onClose={this.handleClose}
@@ -157,5 +158,18 @@ export default class CreateCategories extends Component {
                 :
                 <Loader />
         );
+    }
+}
+
+
+const styles = {
+    header: {
+        display: "flex",
+        justifyContent: "center"
+    },
+    btnLogout: {
+        position: 'absolute',
+        right: '30px',
+        top: '8px'
     }
 }
